@@ -146,7 +146,7 @@ export const projects: Project[] = [
     blurb:
       "A single-page React storefront with custom state-based routing and an editorial-style responsive UI — dynamic cart, persistent wishlist tracking, and localized authentication states built on React Hooks.",
     stack: ["React", "Tailwind CSS", "React Hooks"],
-    href: "",
+    href: "https://bossata.vercel.app",
     preview: "storefront",
   },
   {

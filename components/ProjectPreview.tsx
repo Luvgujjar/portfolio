@@ -1,4 +1,5 @@
 import type { Project } from "@/lib/data";
+import LiveFrame from "./LiveFrame";
 
 const bar = "rounded-full bg-line";
 
@@ -118,15 +119,22 @@ const VARIANTS = {
 export default function ProjectPreview({
   variant,
   label,
+  href,
+  title,
 }: {
   variant: Project["preview"];
   label: string;
+  /** When present, the real site is embedded over the mock. */
+  href?: string;
+  title: string;
 }) {
   const Body = VARIANTS[variant];
+  const live = Boolean(href);
+
   return (
     <div
-      aria-hidden
       className="relative overflow-hidden rounded-lg border border-line bg-ink-2/70"
+      aria-hidden={!live}
     >
       {/* Browser chrome */}
       <div className="flex items-center gap-1.5 border-b border-line px-3 py-2">
@@ -136,10 +144,26 @@ export default function ProjectPreview({
         <span className="ml-2 truncate font-mono text-[9px] tracking-wide text-faint">
           {label}
         </span>
+        {live && (
+          <span className="ml-auto flex shrink-0 items-center gap-1 rounded-full border border-accent/30 bg-accent/10 px-1.5 py-0.5 font-mono text-[8px] tracking-[0.12em] text-accent">
+            <span className="h-1 w-1 rounded-full bg-accent" />
+            LIVE
+          </span>
+        )}
       </div>
-      <div className="h-36 sm:h-40">
-        <Body />
+
+      {/* Viewport. Fixed ratio so every card lines up whether it holds a real
+          site or a mock. */}
+      <div className="relative" style={{ aspectRatio: "1280 / 800" }}>
+        <div className="absolute inset-0">
+          <Body />
+        </div>
+        {live && href && <LiveFrame href={href} title={title} />}
+        {live && (
+          <div className="pointer-events-none absolute inset-0 transition-opacity duration-700 sm:bg-ink/25 sm:group-hover:opacity-0" />
+        )}
       </div>
+
       {/* Sheen that sweeps across on card hover. */}
       <div className="pointer-events-none absolute inset-0 translate-x-[-120%] bg-[linear-gradient(105deg,transparent,rgba(109,124,255,0.10)_45%,transparent)] transition-transform duration-[900ms] ease-out group-hover:translate-x-[120%]" />
     </div>
