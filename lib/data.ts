@@ -135,7 +135,7 @@ export const projects: Project[] = [
     blurb:
       "A high-converting agency platform with a mobile-first UI and optimized lead-generation workflows, backed by an Express REST API and a real-time admin dashboard for centralized lead management.",
     stack: ["React", "Tailwind CSS", "Node.js", "Express", "Vercel", "Render"],
-    href: "",
+    href: "https://elevateagency-dusky.vercel.app",
     preview: "dashboard",
   },
   {
