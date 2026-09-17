@@ -29,10 +29,14 @@ export default function LiveFrame({
   const [loaded, setLoaded] = useState(false);
   const [scale, setScale] = useState(0);
 
-  // Mount the iframe only when the card comes into view.
+  // Mount the iframe only when the card comes into view. Touch devices never
+  // get one: every embedded site is a full app sharing this tab's memory, and
+  // on iOS Safari four of them are enough to crash the tab into a reload loop
+  // ("A problem repeatedly occurred"). They keep the mock thumbnail instead.
   useEffect(() => {
     const el = hostRef.current;
     if (!el) return;
+    if (window.matchMedia("(hover: none), (pointer: coarse)").matches) return;
     const io = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return;
@@ -90,8 +94,7 @@ export default function LiveFrame({
           }}
           // Held back at rest so a bright site does not fight the dark page,
           // then resolved to full colour when the card is hovered — the same
-          // treatment the About portrait gets. Touch screens have no hover to
-          // resolve it, so they get the site at full strength from the start.
+          // treatment the About portrait gets.
           className="absolute left-0 top-0 border-0 transition-[opacity,filter] duration-700 sm:brightness-[0.72] sm:saturate-[0.8] sm:group-hover:brightness-100 sm:group-hover:saturate-100"
         />
       )}
