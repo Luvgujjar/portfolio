@@ -150,14 +150,14 @@ export const projects: Project[] = [
     preview: "storefront",
   },
   {
-    slug: "cctv-platform",
-    title: "CCTV Service Platform",
-    subtitle: "Quoting & order tracking",
-    year: "2025",
+    slug: "himalayan-escape",
+    title: "Himalayan Escape",
+    subtitle: "Tour & travel booking site",
+    year: "2026",
     blurb:
-      "A full-stack service platform pairing a dynamic cost-estimation engine with a role-based admin dashboard, wired to Firestore for real-time data sync, cart management, and live order tracking.",
-    stack: ["React", "Vite", "Tailwind CSS", "Firebase"],
-    href: "",
+      "A travel agency site for curated Himachal Pradesh tours — destination and package listings with pricing and difficulty levels,An ADMIN panel for managing bookings and insights dashboard to monitor performance, a trip-planner enquiry flow with WhatsApp handoff, and light/dark theming.",
+    stack: ["Next.js", "React", "Tailwind CSS", "Vercel"],
+    href: "https://tour-travel-nu-six.vercel.app",
     preview: "console",
   },
 ];
