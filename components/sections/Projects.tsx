@@ -50,6 +50,7 @@ export default function Projects() {
                     label={live ? hostname(project.href) : "localhost:3000"}
                     href={live ? project.href : undefined}
                     title={project.title}
+                    poster={`/previews/${project.slug}.jpg`}
                   />
 
                   <div className="mt-5 flex items-start justify-between gap-4">

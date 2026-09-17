@@ -121,12 +121,15 @@ export default function ProjectPreview({
   label,
   href,
   title,
+  poster,
 }: {
   variant: Project["preview"];
   label: string;
   /** When present, the real site is embedded over the mock. */
   href?: string;
   title: string;
+  /** Screenshot used instead of the embed on touch devices. */
+  poster: string;
 }) {
   const Body = VARIANTS[variant];
   const live = Boolean(href);
@@ -158,7 +161,7 @@ export default function ProjectPreview({
         <div className="absolute inset-0">
           <Body />
         </div>
-        {live && href && <LiveFrame href={href} title={title} />}
+        {live && href && <LiveFrame href={href} title={title} poster={poster} />}
         {live && (
           <div className="pointer-events-none absolute inset-0 transition-opacity duration-700 sm:bg-ink/25 sm:group-hover:opacity-0" />
         )}

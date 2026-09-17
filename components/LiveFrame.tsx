@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 /** Width the site is rendered at before being scaled into the card. */
@@ -20,27 +21,32 @@ const LOAD_TIMEOUT = 9000;
 export default function LiveFrame({
   href,
   title,
+  poster,
 }: {
   href: string;
   title: string;
+  /** Screenshot of the site, shown on touch devices in place of the embed. */
+  poster: string;
 }) {
   const hostRef = useRef<HTMLDivElement | null>(null);
   const [mounted, setMounted] = useState(false);
+  const [still, setStill] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [scale, setScale] = useState(0);
 
   // Mount the iframe only when the card comes into view. Touch devices never
   // get one: every embedded site is a full app sharing this tab's memory, and
   // on iOS Safari four of them are enough to crash the tab into a reload loop
-  // ("A problem repeatedly occurred"). They keep the mock thumbnail instead.
+  // ("A problem repeatedly occurred"). They get a static screenshot instead.
   useEffect(() => {
     const el = hostRef.current;
     if (!el) return;
-    if (window.matchMedia("(hover: none), (pointer: coarse)").matches) return;
+    const touch = window.matchMedia("(hover: none), (pointer: coarse)").matches;
     const io = new IntersectionObserver(
       ([entry]) => {
         if (!entry.isIntersecting) return;
-        setMounted(true);
+        if (touch) setStill(true);
+        else setMounted(true);
         io.disconnect();
       },
       { rootMargin: "300px" },
@@ -73,6 +79,15 @@ export default function LiveFrame({
       ref={hostRef}
       className="pointer-events-none absolute inset-0 overflow-hidden"
     >
+      {still && (
+        <Image
+          src={poster}
+          alt={`Screenshot of ${title}`}
+          fill
+          sizes="(min-width: 640px) 50vw, 100vw"
+          className="object-cover object-top"
+        />
+      )}
       {mounted && scale > 0 && (
         <iframe
           src={href}
